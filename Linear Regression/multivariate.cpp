@@ -83,6 +83,14 @@ pair<vector<double>, double> Train(vector<vector<double>> features,
                                    vector<double> labels, vector<double> weight,
                                    double bias, double learning_rate,
                                    int epochs) {
+  int print_interval;
+  if (epochs < 2000)
+    print_interval = 100;
+  else if (epochs <= 5000)
+    print_interval = 500;
+  else
+    print_interval = 1000;
+
   for (size_t i = 0; i < epochs; i++) {
     vector<double> predicted_labels = predictions(weight, bias, features);
     vector<double> grad_w = gradient_weight(features, labels, predicted_labels);
@@ -90,8 +98,9 @@ pair<vector<double>, double> Train(vector<vector<double>> features,
     weight = update_weight(weight, learning_rate, grad_w);
     bias = update_bias(bias, learning_rate, grad_b);
 
-    if (i % 100 == 0) {
-      cout << "Epoch " << i << ", w = [";
+    if (i % print_interval == 0 || i == epochs - 1 || i == 0) {
+      double mse = calc_MSE(labels, predicted_labels);
+      cout << "Epoch " << i << ", MSE = " << mse << ", w = [";
       for (size_t j = 0; j < weight.size(); j++) {
         cout << weight[j];
         if (j < weight.size() - 1)

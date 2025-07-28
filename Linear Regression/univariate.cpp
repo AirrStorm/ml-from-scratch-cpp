@@ -66,16 +66,28 @@ double update_bias(double bias, double learning_rate, double gradient_bias) {
 pair<double, double> Train(vector<double> features, vector<double> labels,
                            double weight, double bias, double learning_rate,
                            int epochs) {
+  int print_interval;
+  if (epochs < 2000)
+    print_interval = 100;
+  else if (epochs <= 5000)
+    print_interval = 500;
+  else
+    print_interval = 1000;
+
   for (size_t i = 0; i < epochs; i++) {
     vector<double> predicted_labels = predictions(weight, bias, features);
     double grad_w = gradient_weight(features, labels, predicted_labels);
     double grad_b = gradient_bias(labels, predicted_labels);
     weight = update_weight(weight, learning_rate, grad_w);
     bias = update_bias(bias, learning_rate, grad_b);
-    if (i % 100 == 0) {
-      cout << "Epoch " << i << ", w = " << weight << ", b = " << bias << endl;
+
+    if (i % print_interval == 0 || i == 0 || i == epochs - 1) {
+      double mse = calc_MSE(labels, predicted_labels);
+      cout << "Epoch " << i << ", MSE = " << mse << ", w = " << weight
+           << ", b = " << bias << endl;
     }
   }
+
   return {weight, bias};
 }
 
