@@ -105,20 +105,29 @@ pair<vector<double>, double> Train(vector<vector<double>> features,
 
 int main() {
 
-  vector<double> x = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
+  vector<vector<double>> x = {{1.0, 4.0}, {2.0, 3.5}, {3.0, 5.0}, {4.0, 4.5},
+                              {5.0, 5.0}, {6.0, 6.0}, {7.0, 5.5}, {8.0, 6.5},
+                              {9.0, 7.0}, {10.0, 8.0}};
 
   vector<double> y = {52.0, 55.5, 61.0, 64.0, 68.0,
                       74.0, 78.0, 83.0, 88.0, 94.0};
-  double w = 0.0;
+
+  vector<double> w = {0, 0};
   double b = 0.0;
   double lr = 0.001;
   int epochs = 10000;
 
-  pair<double, double> result = Train(x, y, w, b, lr, epochs);
+  pair<vector<double>, double> result = Train(x, y, w, b, lr, epochs);
   w = result.first;
   b = result.second;
 
-  cout << "\nFinal Weight: " << w << ", Final Bias: " << b << endl;
+  cout << "\nFinal Weight: [";
+  for (size_t i = 0; i < w.size(); i++) {
+    cout << w[i];
+    if (i != w.size() - 1)
+      cout << ", ";
+  }
+  cout << "], Final Bias: " << b << endl;
 
   return 0;
 }
