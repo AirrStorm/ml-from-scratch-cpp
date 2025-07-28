@@ -121,6 +121,9 @@ int main() {
   w = result.first;
   b = result.second;
 
+  vector<double> predicted_labels = predictions(w, b, x);
+  double MSE = calc_MSE(y, predicted_labels);
+
   cout << "\nFinal Weight: [";
   for (size_t i = 0; i < w.size(); i++) {
     cout << w[i];
@@ -128,6 +131,7 @@ int main() {
       cout << ", ";
   }
   cout << "], Final Bias: " << b << endl;
+  cout << "MSE: " << MSE << endl;
 
   return 0;
 }

@@ -96,6 +96,7 @@ int main() {
 
   vector<double> predicted_labels = predictions(w, b, x);
   double MSE = calc_MSE(y, predicted_labels);
+
   cout << "\nFinal Weight: " << w << ", Final Bias: " << b << endl;
   cout << "MSE: " << MSE << endl;
   return 0;
